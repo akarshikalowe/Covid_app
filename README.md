@@ -18,3 +18,9 @@ Created transformations on python to retrieve events location and dates that hav
 #### 3. Retrieve a list of people who should be warned that they were in contact with a person who tested positive.
 Took a list of all the users who might have get in contact with the covid patient. People who might have come in contact with the covid patient in the past 15 days should be sent an alert.
 
+## Python libraries installation
+```pip install psycopg2-binary
+```
+
+## Credentials
+Set environmental variables for username and passdwords
