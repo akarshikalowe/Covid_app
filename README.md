@@ -29,5 +29,5 @@ Set environmental variables for username and passdwords
 
 Can be found on Tableau Public under link
 
-```https://public.tableau.com/profile/akarshika.lowe#!/vizhome/CovidApp/Dashboard1?publish=yes
-```
+https://public.tableau.com/profile/akarshika.lowe#!/vizhome/CovidApp/Dashboard1?publish=yes
+
