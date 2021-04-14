@@ -13,10 +13,10 @@ connection = psycopg2.connect(
     port='5432'
 )
 cursor = connection.cursor()
-# table_name= "u_0493617.infected_covid_positive"
-# sql_create = "Create table " +table_name+" (index_x int NOT NULL, user_name int, location int, presence_date timestamp, report_date timestamp, positive_date varchar, date1 varchar, alert varchar);"
-# cursor.execute(sql_create)
-# connection.commit()
+table_name= "u_0493617.infected_user_result"
+sql_create = "Create table " +table_name+" (user_name int, location int, presence_date timestamp, report_date timestamp, positive_date timestamp, date1 timestamp);"
+cursor.execute(sql_create)
+connection.commit()
 sql = """
 SELECT *
 FROM attendance
@@ -51,11 +51,27 @@ df_infected_users.to_csv("infected_users.csv")
 df_infected_users.rename(columns={"user": "users_name"})
 df_csv = pd.read_csv("infected_users.csv")
 
-# Was getting an error due to datatype while inserting into PostgreSQL
-# cols = ','.join(list(df_csv.columns))
-# tuples = [tuple(x) for x in df_csv.to_numpy()]
-# query = "Insert into %s(%s) values(%%s,%%s,%%s)" %("u_0493617.infected_covid_positive",cols)
-# cursor.executemany(query, tuples)
+# Inserting data into the Postgresql Table 
+sql3 = """
+with temp as (SELECT c.user as users,*
+    FROM attendance w, positives c
+    WHERE w.user = c.user),
+
+temp2 as
+(select users, location,	presence_date,	report_date,	positive_date,
+((positive_date) - INTERVAL '15 DAYS') AS date1
+ from temp),
+
+temp3 as(
+select  users as user_name, location,	presence_date,	report_date, positive_date, date1 from temp2 where presence_date >= date1  and presence_date <= positive_date
+)
+
+insert into u_0493617.infected_user_result (user_name, location, presence_date,	report_date, positive_date, date1)
+select user_name, location,	presence_date,	report_date, positive_date, date1 from temp3;
+
+"""
+cursor.execute(sql3)
+connection.commit()
 
 # since we don't know the for how long the person was present at that location so we use date and not timestamp for presence_date
 df_attendance['presence_normalised_date'] = df_attendance['presence_date'].dt.date
