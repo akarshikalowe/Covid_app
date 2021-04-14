@@ -24,3 +24,10 @@ Took a list of all the users who might have get in contact with the covid patien
 
 ## Credentials
 Set environmental variables for username and passdwords
+
+## Visualization
+
+Can be found on Tableau Public under link
+
+```https://public.tableau.com/profile/akarshika.lowe#!/vizhome/CovidApp/Dashboard1?publish=yes
+```
