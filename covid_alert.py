@@ -1,20 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 14 01:51:42 2021
-
-@author: akarshika
-"""
-
+# Covid app
 import psycopg2
 import pandas as pd
 import numpy as np
+import os
 
-# data-interview-db.ce7oyzeskgrt.eu-west-1.rds.amazonaws.com:5432
+# Connecting to the DB source
 connection = psycopg2.connect(
     database="postgres",
-    user="u_0493617",
-    password="p_0397412",
+    user = os.environ.get('username'),
+    password = os.environ.get('password'),
     host="data-interview-db.ce7oyzeskgrt.eu-west-1.rds.amazonaws.com",
     port='5432'
 )
